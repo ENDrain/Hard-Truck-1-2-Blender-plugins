@@ -2,8 +2,8 @@ bl_info = {
 	"name": "King of The Road Tools Panel for b3d exporter",
 	"description": "",
 	"author": "Andrey Prozhoga",
-	"version": (1, 0, 0),
-	"blender": (2, 79, 0),
+	"version": (1, 1, 0),
+	"blender": (2, 8, 0),
 	"location": "3D View > Tools",
 	"warning": "",
 	"wiki_url": "",
@@ -1893,12 +1893,24 @@ class OBJECT_PT_b3d_misc_panel(Panel):
 # register and unregister
 # ------------------------------------------------------------------------
 
+classes = (
+	PanelSettings,
+)
+
 def register():
-	bpy.utils.register_module(__name__)
+	#bpy.utils.register_module(__name__)
+	from bpy.utils import register_class
+	for cls in classes:
+		register_class(cls)
 	bpy.types.Scene.my_tool = PointerProperty(type=PanelSettings)
+		
+		
 
 def unregister():
-	bpy.utils.unregister_module(__name__)
+	#bpy.utils.unregister_module(__name__)
+	from bpy.utils import unregister_class
+	for cls in classes:
+		unregister_class(cls)
 	del bpy.types.Scene.my_tool
 
 if __name__ == "__main__":
