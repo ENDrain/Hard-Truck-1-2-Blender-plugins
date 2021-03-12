@@ -21,8 +21,8 @@
 bl_info = {
     'name': 'B3D importer/exporter',
     'author': 'Yuriy Gladishenko, Andrey Prozhoga',
-    'version': (0, 1, 15),
-    'blender': (2, 7, 9),
+    'version': (0, 2, 15),
+    'blender': (2, 8, 0),
     'api': 34893,
     'description': 'This script imports and exports the King of the Road b3d',
     'warning': '',
@@ -149,16 +149,29 @@ def menu_func_export(self, context):
    self.layout.operator(ExportB3D.bl_idname, text='KOTR B3D (.b3d)')
 
 
+classes = (
+    ImportB3D,
+    ImportWayTxt,
+    ExportB3D,
+)
+
+
 def register():
-    bpy.utils.register_module(__name__)
-    bpy.types.INFO_MT_file_import.append(menu_func_import)
-    bpy.types.INFO_MT_file_export.append(menu_func_export)
+    #bpy.utils.register_module(__name__)
+    from bpy.utils import register_class
+    for cls in classes:
+        register_class(cls)
+    bpy.types.TOPBAR_MT_file_import.append(menu_func_import)
+    bpy.types.TOPBAR_MT_file_export.append(menu_func_export)
 
 
 def unregister():
-    bpy.utils.unregister_module(__name__)
-    bpy.types.INFO_MT_file_import.remove(menu_func_import)
-    bpy.types.INFO_MT_file_export.remove(menu_func_export)
+    #bpy.utils.unregister_module(__name__)
+    from bpy.utils import unregister_class
+    for cls in classes:
+        unregister_class(cls)
+    bpy.types.TOPBAR_MT_file_import.remove(menu_func_import)
+    bpy.types.TOPBAR_MT_file_export.remove(menu_func_export)
 
 
 if __name__ == "__main__":
